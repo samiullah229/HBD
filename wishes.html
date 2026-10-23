@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!--
+  PAGE 4 — BIRTHDAY WISHES & BEST WISHES  (wishes.html)
+  An animated cake, balloons, stars, a heartfelt message and a list of wishes.
+  Next page: invitation.html
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050816">
+  <meta name="robots" content="noindex">
+  <title>Happy Birthday, Ali!</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎂</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="js/script.js" defer></script>
+</head>
+
+<body data-page="wishes">
+
+  <main class="page page--top">
+
+    <header>
+      <h1 class="title">Happy Birthday, Ali! 🎂</h1>
+    </header>
+
+    <!-- Animated cake. Tap it to blow out the candles! -->
+    <button type="button" class="cake" id="cake" aria-pressed="false"
+            aria-label="Birthday cake. Press to blow out the candles.">
+      <span class="candles" aria-hidden="true">
+        <span class="candle"><i class="flame"></i></span>
+        <span class="candle"><i class="flame"></i></span>
+        <span class="candle"><i class="flame"></i></span>
+      </span>
+      <span class="tier tier-top" aria-hidden="true"></span>
+      <span class="tier tier-mid" aria-hidden="true"></span>
+      <span class="tier tier-bottom" aria-hidden="true"></span>
+      <span class="plate" aria-hidden="true"></span>
+    </button>
+    <p class="cake-hint">Tap the cake to make a wish ✨</p>
+
+    <!-- ✏️ EDIT: the heartfelt birthday paragraph -->
+    <section class="glass text-card reveal">
+      <p>
+        Dear Ali, today is your day, and I hope it is filled with laughter,
+        love and everything that makes you smile. You are the kind of friend
+        who makes ordinary days feel special, and I am so grateful to have you
+        in my life.
+      </p>
+      <p>
+        Thank you for being kind, loyal and always yourself. I hope this new
+        year brings you everything you have been working and wishing for.
+        Happy Birthday, my friend! 💙
+      </p>
+    </section>
+
+    <!-- ✏️ EDIT: the wishes. Change the text, or copy a card to add more. -->
+    <section class="container" aria-labelledby="wishes-title">
+      <h2 class="section-title reveal" id="wishes-title">My Best Wishes for You</h2>
+
+      <div class="wish-grid">
+
+        <article class="glass wish-card reveal" style="--d:0s">
+          <span class="wish-icon" aria-hidden="true">😊</span>
+          <h3>Happiness</h3>
+          <p>May every day bring you reasons to smile and laugh out loud.</p>
+        </article>
+
+        <article class="glass wish-card reveal" style="--d:0.08s">
+          <span class="wish-icon" aria-hidden="true">🏆</span>
+          <h3>Success</h3>
+          <p>May your hard work be rewarded and your goals become reality.</p>
+        </article>
+
+        <article class="glass wish-card reveal" style="--d:0.16s">
+          <span class="wish-icon" aria-hidden="true">💪</span>
+          <h3>Health</h3>
+          <p>May you stay strong, healthy and full of energy all year long.</p>
+        </article>
+
+        <article class="glass wish-card reveal" style="--d:0.24s">
+          <span class="wish-icon" aria-hidden="true">🕊️</span>
+          <h3>Peace</h3>
+          <p>May your heart be calm and your days be gentle and bright.</p>
+        </article>
+
+        <article class="glass wish-card reveal" style="--d:0.32s">
+          <span class="wish-icon" aria-hidden="true">🤝</span>
+          <h3>Friendship</h3>
+          <p>May you always be surrounded by people who truly care about you.</p>
+        </article>
+
+        <article class="glass wish-card reveal" style="--d:0.4s">
+          <span class="wish-icon" aria-hidden="true">🚀</span>
+          <h3>Future Achievements</h3>
+          <p>May the years ahead take you to places even bigger than your dreams.</p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ✏️ EDIT: personal message card with a glowing border -->
+    <section class="glow-card reveal">
+      <h2>A Little Note From Me 💌</h2>
+      <p>
+        Ali, no matter where life takes us, I will always be cheering for you.
+        You make the world around you better just by being in it.
+        Keep shining, keep smiling and never forget how much you matter.
+      </p>
+      <p class="signature">— Your friend</p>
+    </section>
+
+    <div class="page-cta reveal">
+      <a class="btn btn--glow" href="invitation.html" data-nav>One Last Surprise 💖</a>
+    </div>
+
+  </main>
+
+</body>
+</html>

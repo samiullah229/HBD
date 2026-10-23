@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--
+  PAGE 3 — THE BIG SURPRISE  (surprise.html)
+  A gift box (built with CSS) opens when the button is pressed and reveals
+  a personal message, with confetti and floating hearts.
+  Next page: wishes.html
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050816">
+  <meta name="robots" content="noindex">
+  <title>The Big Surprise</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎂</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="js/script.js" defer></script>
+</head>
+
+<body data-page="surprise">
+
+  <main class="page">
+    <div class="gift-stage">
+
+      <h1 class="title">Ali, I Have Something for You...</h1>
+
+      <!-- The gift box. It is drawn with CSS, so no image is needed. -->
+      <div class="gift" id="gift" aria-hidden="true">
+        <div class="gift-glow"></div>
+        <div class="gift-light"></div>
+        <div class="gift-inner">
+          <div class="gift-box"></div>
+          <div class="gift-lid">
+            <div class="gift-bow">
+              <span class="loop loop-left"></span>
+              <span class="loop loop-right"></span>
+              <span class="knot"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- This part disappears after the gift is opened -->
+      <div class="gift-prompt" id="gift-prompt">
+        <p class="subtitle">Are you ready for your surprise?</p>
+        <button type="button" class="btn btn--glow" id="open-gift">Open Your Gift 🎁</button>
+      </div>
+
+      <!-- Hidden until the gift is opened -->
+      <section class="glass surprise-reveal" id="surprise-reveal" hidden aria-live="polite">
+
+        <h2 class="reveal-title">Happy Birthday, Ali! 🎉</h2>
+
+        <!-- ✏️ EDIT: your personal message goes here. Write whatever you like! -->
+        <p class="reveal-message">
+          Ali, you are one of the best things that ever happened to me.
+          Thank you for every laugh, every talk and every moment
+          you've been there for me. Today is all about you —
+          you deserve all the happiness in the world.
+        </p>
+
+        <!-- ✏️ OPTIONAL PHOTO: change the file, or delete this <img> to remove it.
+             (A short video also works — see the <video> example in memories.html.) -->
+    <img class="reveal-photo" src="./assets/images/Gemini_Generated_Image_qs4ajbqs4ajbqs4a.jfif"
+             alt="A special memory with Ali" data-fallback="Add assets/images/memory3.jpg">
+               <img class="reveal-photo" src="./assets/images/1.jpg"
+             alt="A special memory with Ali" data-fallback="Add assets/images/memory3.jpg">
+
+        <p class="reveal-note">This is just a little reminder of how special you are!</p>
+      </section>
+
+      <!-- Appears a moment after the message -->
+      <div class="continue-wrap" id="continue-wrap" hidden>
+        <a class="btn btn--glow" href="wishes.html" data-nav>Continue to Your Birthday Wishes 💌</a>
+      </div>
+
+    </div>
+  </main>
+
+</body>
+</html>

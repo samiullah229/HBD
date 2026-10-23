@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--
+  PAGE 6 — FINAL GOODBYE & CLOSING  (closing.html)
+  Ali's photo, a heartfelt closing message and a button that replays everything.
+  The "Replay" button goes back to index.html and resets the experience.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050816">
+  <meta name="robots" content="noindex">
+  <title>Once Again, Happy Birthday, Ali!</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎂</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="js/script.js" defer></script>
+</head>
+
+<body data-page="closing">
+
+  <!-- Ali's photo as the background (set in css/style.css -> assets/images/ali.jpg) -->
+  <div class="photo-bg photo-bg--ali-soft" aria-hidden="true"></div>
+
+  <main class="page">
+
+    <!-- Round portrait. ✏️ EDIT: change src to use a different photo. -->
+    <img class="portrait" src="./assets/images/5.jpg" alt="Ali"
+         data-fallback="Add assets/images/ali.jpg">
+
+    <h1 class="title">Once Again, Happy Birthday, Ali! ❤️</h1>
+
+    <!-- ✏️ EDIT: your heartfelt closing message -->
+    <section class="glass closing-card">
+      <p>
+        Friends like you are rare, and the memories we've made are some of my
+        most precious treasures. Thank you for the laughs, the support and for
+        simply being you. Here's to many more unforgettable moments together.
+      </p>
+    </section>
+
+    <p class="closing-wish">May your new year of life bring endless happiness and success.</p>
+
+    <!-- data-reset clears the "unlocked" flag, so the whole surprise starts again -->
+    <a class="btn btn--glow" href="index.html" data-nav data-reset>Replay Your Birthday Surprise 🔄</a>
+
+    <footer class="site-footer">Made with ❤️ for Ali</footer>
+
+  </main>
+
+</body>
+</html>

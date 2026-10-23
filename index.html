@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--
+  PAGE 1 — LANDING PAGE  (index.html)
+  Ali's photo fills the screen. Ali enters his birthday to unlock the surprise.
+  Next page: memories.html
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Makes the page fit phones, tablets and computers -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050816">
+  <!-- Asks search engines not to list this personal page -->
+  <meta name="robots" content="noindex">
+  <title>Happy Birthday, Ali!</title>
+
+  <!-- Little cake icon in the browser tab (no extra file needed) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎂</text></svg>">
+
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Tells the CSS that JavaScript is available (used for scroll animations) -->
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="js/script.js" defer></script>
+</head>
+
+<!-- data-page tells script.js which page this is -->
+<body data-page="landing">
+
+  <!-- Full-screen photo background.
+       The photo is set in css/style.css (.photo-bg--ali) -> assets/images/ali.jpg -->
+  <div class="photo-bg photo-bg--ali" aria-hidden="true"></div>
+
+  <main class="page">
+
+    <p class="eyebrow">A Special Day Is Coming...</p>
+
+    <!-- Each word animates in separately. Change the words if you like. -->
+    <h1 class="hero-title" aria-label="Happy Birthday, Ali!">
+      <span class="word" style="--i:0" aria-hidden="true">Happy</span>
+      <span class="word" style="--i:1" aria-hidden="true">Birthday,</span>
+      <span class="word" style="--i:2" aria-hidden="true">Ali!</span>
+    </h1>
+
+    <p class="subtitle">Someone special deserves something unforgettable.</p>
+
+    <!-- ✏️ EDIT: the birthday shown on the page -->
+    <p class="date-pill">20 November</p>
+
+    <!-- Date-of-birth card (glassmorphism).
+         script.js checks the date when the button is pressed. -->
+    <form class="glass unlock-card" id="unlock-form" novalidate>
+      <label class="unlock-label" for="birthday-input">
+        Enter your birthday to unlock your surprise.
+      </label>
+
+      <!-- type="date" gives a calendar picker. Expected format: YYYY-MM-DD
+           (browsers show it in the local style, e.g. DD/MM/YYYY). -->
+      <input type="date" id="birthday-input" name="birthday" autocomplete="off" required>
+      <p class="form-hint">Choose the day, month and year.</p>
+
+      <!-- Friendly error messages appear here -->
+      <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+
+      <button type="submit" class="btn btn--glow" id="unlock-btn">Unlock Your Surprise ✨</button>
+    </form>
+
+  </main>
+
+  <!-- Success animation (hidden until the correct birthday is entered) -->
+  <div class="unlock-overlay" id="unlock-overlay" hidden role="alert">
+    <div class="unlock-burst" aria-hidden="true">✨</div>
+    <p class="unlock-text">Unlocked! 🎉</p>
+    <p class="unlock-sub">Getting your surprise ready...</p>
+  </div>
+
+</body>
+</html>

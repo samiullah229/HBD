@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<!--
+  PAGE 2 — MEMORIES & BEAUTIFUL MOMENTS  (memories.html)
+  A scrapbook-style gallery with a lightbox, video memories and music controls.
+  Next page: surprise.html
+
+  HOW TO USE YOUR OWN MEDIA
+  - Photos: replace the files in  assets/images/  (keep the same file names,
+    or change the src="..." below).
+  - Videos: put MP4 files in  assets/videos/  (memory1.mp4, memory2.mp4).
+  - Music:  put an MP3 in  assets/audio/  and name it birthday-music.mp3
+  - Missing files are fine — a friendly placeholder is shown instead.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050816">
+  <meta name="robots" content="noindex">
+  <title>Our Beautiful Memories</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎂</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="js/script.js" defer></script>
+</head>
+
+<body data-page="memories">
+
+  <!-- Music controls. Music only plays when you press the button. -->
+  <div class="music-panel glass no-print">
+    <button type="button" class="music-btn" id="music-btn" aria-pressed="false">
+      <span class="music-note" aria-hidden="true">🎵</span>
+      <span class="music-label">Music: Off</span>
+    </button>
+    <label class="sr-only" for="music-volume">Music volume</label>
+    <input type="range" class="music-volume" id="music-volume" min="0" max="100" value="50">
+  </div>
+
+  <main class="page page--top">
+
+    <header class="reveal">
+      <h1 class="title">Our Beautiful Memories ❤️</h1>
+      <p class="subtitle">Every moment has a story worth remembering.</p>
+    </header>
+
+    <!-- ================= PHOTOS ================= -->
+    <section class="container" aria-labelledby="photos-title">
+      <h2 class="section-title reveal" id="photos-title">Photo Moments</h2>
+
+      <div class="gallery">
+
+        <!-- ✏️ EDIT: change src (photo), alt (description) and the caption.
+             To add more photos, copy one whole <figure>...</figure> block. -->
+
+        <figure class="photo-card reveal" style="--d:0s">
+          <button type="button" class="photo-btn" aria-label="Open photo: Where it all started">
+            <img src="./assets/images/s1.jpg" alt="A memory with Ali" loading="lazy"
+                 data-fallback="Add assets/images/memory1.jpg">
+          </button>
+          <figcaption>Where it all started ✨</figcaption>
+        </figure>
+
+        <figure class="photo-card reveal" style="--d:0.1s">
+          <button type="button" class="photo-btn" aria-label="Open photo: Laughing until it hurts">
+            <img src="./assets/images/6.jpg" alt="Another memory with Ali" loading="lazy"
+                 data-fallback="Add assets/images/memory2.jpg">
+          </button>
+          <figcaption>Laughing until it hurts 😂</figcaption>
+        </figure>
+
+        <figure class="photo-card reveal" style="--d:0.2s">
+          <button type="button" class="photo-btn" aria-label="Open photo: Best day ever">
+            <img src="./assets/images/3.jpg" alt="A third memory with Ali" loading="lazy"
+                 data-fallback="Add assets/images/memory3.jpg">
+          </button>
+          <figcaption>One of the best days ever 🌟</figcaption>
+        </figure>
+
+        <figure class="photo-card reveal" style="--d:0.3s">
+          <button type="button" class="photo-btn" aria-label="Open photo: Just Ali being Ali">
+            <img src="./assets/images/dp1.jpg" alt="Ali" loading="lazy"
+                 data-fallback="Add assets/images/ali.jpg">
+          </button>
+          <figcaption>Just Ali being Ali 💙</figcaption>
+        </figure>
+
+      </div>
+       <div class="gallery">
+
+        <!-- ✏️ EDIT: change src (photo), alt (description) and the caption.
+             To add more photos, copy one whole <figure>...</figure> block. -->
+
+        <figure class="photo-card reveal" style="--d:0s">
+          <button type="button" class="photo-btn" aria-label="Open photo: Where it all started">
+            <img src="./assets/images/2.jpg" alt="A memory with Ali" loading="lazy"
+                 data-fallback="Add assets/images/memory1.jpg">
+          </button>
+          <figcaption>Where it all started ✨</figcaption>
+        </figure>
+
+        <figure class="photo-card reveal" style="--d:0.1s">
+          <button type="button" class="photo-btn" aria-label="Open photo: Laughing until it hurts">
+            <img src="./assets/images/5.jpg" alt="Another memory with Ali" loading="lazy"
+                 data-fallback="Add assets/images/memory2.jpg">
+          </button>
+          <figcaption>Laughing until it hurts 😂</figcaption>
+        </figure>
+
+        <figure class="photo-card reveal" style="--d:0.2s">
+          <button type="button" class="photo-btn" aria-label="Open photo: Best day ever">
+            <img src="./assets/images/Screenshot_20260812-144037.jpg" alt="A third memory with Ali" loading="lazy"
+                 data-fallback="Add assets/images/memory3.jpg">
+          </button>
+          <figcaption>One of the best days ever 🌟</figcaption>
+        </figure>
+
+        <figure class="photo-card reveal" style="--d:0.3s">
+          <button type="button" class="photo-btn" aria-label="Open photo: Just Ali being Ali">
+            <img src="./assets/images/1.jpg" alt="Ali" loading="lazy"
+                 data-fallback="Add assets/images/ali.jpg">
+          </button>
+          <figcaption>Just Ali being Ali 💙</figcaption>
+        </figure>
+
+      </div>
+    </section>
+
+   
+
+    <!-- ================= NEXT PAGE ================= -->
+    <div class="page-cta reveal">
+      <a class="btn btn--glow" href="surprise.html" data-nav>Wait... There's More 🎁</a>
+    </div>
+
+  </main>
+
+</body>
+</html>

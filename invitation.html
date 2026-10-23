@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--
+  PAGE 5 — BIRTHDAY PARTY INVITATION CARD  (invitation.html)
+  A digital invitation. It is easy to print or save as PDF / screenshot.
+  Next page: closing.html
+
+  NOTE: This is only a card to look at. "Celebrate With Me" plays a
+  celebration animation — it does NOT send anything to anyone.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050816">
+  <meta name="robots" content="noindex">
+  <title>You Are Invited! — Ali's Birthday</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎂</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="js/script.js" defer></script>
+</head>
+
+<body data-page="invitation">
+
+  <main class="page">
+
+    <!-- ===== THE INVITATION CARD ===== -->
+    <article class="invite" id="invitation-card" aria-label="Birthday party invitation">
+
+      <!-- Corner decorations -->
+      <span class="corner tl" aria-hidden="true">✦</span>
+      <span class="corner tr" aria-hidden="true">✦</span>
+      <span class="corner bl" aria-hidden="true">✦</span>
+      <span class="corner br" aria-hidden="true">✦</span>
+
+      <!-- Birthday icons at the top -->
+      <div class="invite-icons" aria-hidden="true">
+        <span style="--i:0">🎈</span><span style="--i:1">🎂</span><span style="--i:2">🎈</span>
+      </div>
+
+      <p class="invite-kicker">YOU ARE INVITED!</p>
+      <h1 class="invite-title">Ali's Birthday Celebration</h1>
+
+      <!-- ✏️ EDIT: your personal invitation message -->
+      <p class="invite-message">
+        Come and celebrate with the people who love you most.
+        Good company, good food and great memories are guaranteed!
+      </p>
+
+      <!-- ✏️ EDIT: fill in the time and venue where you see [Add ...] -->
+      <ul class="invite-details">
+        <li>
+          <span class="d-icon" aria-hidden="true">📅</span>
+          <span><span class="d-label">Date</span><span class="d-value">when we will meet</span></span>
+        </li>
+        <li>
+          <span class="d-icon" aria-hidden="true">🕖</span>
+          <span><span class="d-label">Time</span><span class="d-value">09:pm</span></span>
+        </li>
+        <li>
+          <span class="d-icon" aria-hidden="true">📍</span>
+          <span><span class="d-label">Venue</span><span class="d-value">Mirchy 360</span></span>
+        </li>
+      </ul>
+
+      <div class="invite-footer-icons" aria-hidden="true">🎁 🎉 🎶 🎊</div>
+    </article>
+
+    <!-- ===== BUTTONS (hidden when printing) ===== -->
+    <div class="invite-actions no-print">
+      <button type="button" class="btn btn--glow" id="celebrate-btn">Celebrate With Me 🎉</button>
+      <!-- Opens the print window; choose "Save as PDF" to keep it as a file -->
+     
+    </div>
+   
+
+    <!-- Revealed by "Celebrate With Me" (hidden at first) -->
+    <section class="glass celebration" id="celebration" hidden aria-live="polite">
+      <h2>🎉 Let's Celebrate, Ali! 🎉</h2>
+      <!-- ✏️ EDIT: your final greeting -->
+      <p>
+        Another year, another reason to celebrate you.
+        Thank you for being such an amazing friend. Let's make this birthday unforgettable!
+      </p>
+    </section>
+
+    <!-- Appears after "Celebrate With Me" -->
+    <div class="continue-wrap no-print" id="next-wrap" hidden>
+      <a class="btn btn--glow" href="closing.html" data-nav>One More Thing ➜</a>
+    </div>
+
+  </main>
+
+</body>
+</html>

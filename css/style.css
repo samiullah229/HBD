@@ -1,0 +1,1443 @@
+/* ==========================================================================
+   ALI'S BIRTHDAY WEBSITE  —  css/style.css
+   --------------------------------------------------------------------------
+   One stylesheet shared by all six pages.
+
+   TABLE OF CONTENTS
+     1.  Colours, fonts & settings (CSS variables)
+     2.  Reset & base styles
+     3.  Page layout & page transitions
+     4.  Reusable parts (buttons, glass cards, headings, toast)
+     5.  Magic effects layer (particles, stars, confetti, balloons)
+     6.  Page 1  — Landing page          (index.html)
+     7.  Page 2  — Memories              (memories.html)
+     8.  Page 3  — Gift surprise         (surprise.html)
+     9.  Page 4  — Birthday wishes       (wishes.html)
+     10. Page 5  — Invitation card       (invitation.html)
+     11. Page 6  — Closing page          (closing.html)
+     12. Small screens (responsive tweaks)
+     13. Printing (so the invitation prints nicely)
+     14. Reduced motion (for people who prefer fewer animations)
+
+   TIP: To change the whole colour mood, edit the variables in section 1.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. COLOURS, FONTS & SETTINGS
+   ========================================================================== */
+:root {
+  /* Dark navy / black backgrounds */
+  --navy-950: #050816;
+  --navy-900: #0a1030;
+  --navy-800: #121a45;
+
+  /* Purples and pinks used for glows and buttons */
+  --purple-700: #5b21b6;
+  --purple-500: #8b5cf6;
+  --purple-300: #c4b5fd;
+  --pink-500: #ec4899;
+  --pink-400: #f472b6;
+  --pink-200: #fbcfe8;
+  --gold: #f9d27d;
+
+  /* Text colours */
+  --text: #f5f3ff;
+  --text-soft: #d9d3f5;
+
+  /* Glassmorphism (frosted glass) look */
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.2);
+
+  --radius: 24px;
+
+  /* Fonts: only fonts already on the device, so nothing is downloaded. */
+  --font-heading: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+
+/* ==========================================================================
+   2. RESET & BASE STYLES
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* The "hidden" attribute must always win (used by JavaScript to show/hide). */
+[hidden] {
+  display: none !important;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  background-color: var(--navy-950);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  font-family: var(--font-body);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  /* No background colour here on purpose: the <html> element supplies the
+     navy colour, and a colour on <body> would paint OVER the glowing
+     gradient and photo that sit behind the content. */
+}
+
+/* A soft glowing gradient that stays fixed behind every page. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(124, 58, 237, 0.38), transparent 50%),
+    radial-gradient(circle at 85% 90%, rgba(244, 114, 182, 0.26), transparent 50%),
+    linear-gradient(160deg, #050816 0%, #0b1240 55%, #1a0b3b 100%);
+}
+
+img,
+video {
+  max-width: 100%;
+  display: block;
+}
+
+h1, h2, h3, p {
+  margin-top: 0;
+}
+
+/* Keyboard users get a clear outline when tabbing through buttons. */
+:focus-visible {
+  outline: 3px solid var(--pink-200);
+  outline-offset: 3px;
+}
+
+/* Text only for screen readers (hidden visually). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+
+/* ==========================================================================
+   3. PAGE LAYOUT & PAGE TRANSITIONS
+   ========================================================================== */
+
+/* Every page keeps its content inside <main class="page"> */
+.page {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 20px;
+  text-align: center;
+  animation: pageIn 0.8s ease both;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+/* Pages with lots of content start at the top instead of the middle. */
+.page--top {
+  justify-content: flex-start;
+  padding-top: 84px;
+}
+
+/* JavaScript adds this class just before moving to the next page. */
+body.page-leave .page {
+  opacity: 0;
+  transform: translateY(-12px);
+}
+
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.container {
+  width: min(1100px, 100%);
+  margin-inline: auto;
+}
+
+/* Full-screen photo/gradient background (behind everything). */
+.photo-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+}
+
+/*
+  Ali's photo with a dark overlay on top so text stays readable.
+  If assets/images/ali.jpg is missing, the browser simply skips the image
+  and the gradient at the end shows instead — no broken picture!
+*/
+.photo-bg--ali {
+  background:
+    linear-gradient(180deg, rgba(5, 8, 22, 0.55) 0%, rgba(5, 8, 22, 0.88) 100%),
+    url("../assets/images/5.jpg") center / cover no-repeat,
+    linear-gradient(160deg, #0a1030, #2a0f55 60%, #4a1245);
+}
+
+/* A lighter overlay for the closing page so the photo is more visible. */
+.photo-bg--ali-soft {
+  background:
+    linear-gradient(180deg, rgba(5, 8, 22, 0.5) 0%, rgba(26, 11, 59, 0.9) 100%),
+    url("../assets/images/5.jpg") center / cover no-repeat,
+    linear-gradient(160deg, #0a1030, #2a0f55 60%, #4a1245);
+}
+
+/* Scroll-reveal: items fade up when they enter the screen.
+   (Only active when JavaScript is running, so nothing stays hidden without it.) */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+  transition-delay: var(--d, 0s);
+}
+.js .reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
+
+
+/* ==========================================================================
+   4. REUSABLE PARTS
+   ========================================================================== */
+
+/* ---- Glass card (frosted-glass look) ---- */
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+/* ---- Headings & text ---- */
+.eyebrow {
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--pink-200);
+  text-shadow: 0 0 14px rgba(244, 114, 182, 0.8);
+}
+
+.title {
+  margin: 0.3em 0;
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 6vw, 3.6rem);
+  line-height: 1.15;
+  text-shadow: 0 0 26px rgba(196, 181, 253, 0.6);
+}
+
+.subtitle {
+  max-width: 46ch;
+  margin-inline: auto;
+  font-size: clamp(1rem, 2.4vw, 1.3rem);
+  color: var(--text-soft);
+}
+
+.section-title {
+  position: relative;
+  margin: 2.6rem 0 1.4rem;
+  font-family: var(--font-heading);
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  color: var(--pink-200);
+  text-shadow: 0 0 18px rgba(244, 114, 182, 0.6);
+}
+.section-title::after {
+  content: "";
+  display: block;
+  width: 90px;
+  height: 2px;
+  margin: 0.6rem auto 0;
+  background: linear-gradient(90deg, transparent, var(--pink-400), transparent);
+}
+
+/* ---- Buttons ---- */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding: 0.95em 1.9em;
+  border: 0;
+  border-radius: 999px;
+  font: 600 1.05rem/1.2 var(--font-body);
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--pink-500), var(--purple-500));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.22),
+    0 10px 30px rgba(236, 72, 153, 0.4),
+    0 0 40px rgba(139, 92, 246, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+/* The shiny sweep that slides across the button on hover */
+.btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+}
+.btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.3),
+    0 14px 40px rgba(236, 72, 153, 0.55),
+    0 0 60px rgba(139, 92, 246, 0.5);
+}
+.btn:hover::after { left: 130%; }
+.btn:active { transform: translateY(-1px) scale(0.99); }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+/* Gently pulsing glow for important buttons */
+.btn--glow { animation: btnPulse 2.6s ease-in-out infinite; }
+@keyframes btnPulse {
+  0%, 100% { box-shadow: inset 0 0 0 1px rgba(255,255,255,.22), 0 10px 30px rgba(236,72,153,.4), 0 0 30px rgba(139,92,246,.3); }
+  50%      { box-shadow: inset 0 0 0 1px rgba(255,255,255,.3),  0 10px 40px rgba(236,72,153,.7), 0 0 70px rgba(139,92,246,.6); }
+}
+
+/* A quieter button style */
+.btn--ghost {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+}
+
+/* ---- Small pop-up message (toast) ---- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  z-index: 120;
+  max-width: min(92vw, 420px);
+  padding: 0.8em 1.3em;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  text-align: center;
+  color: #fff;
+  background: rgba(20, 14, 60, 0.92);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transform: translate(-50%, 20px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+
+/* ==========================================================================
+   5. MAGIC EFFECTS LAYER
+   JavaScript creates the particles; these rules make them move.
+   ========================================================================== */
+#fx-layer,
+#confetti-layer {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none; /* clicks pass straight through */
+}
+#fx-layer       { z-index: 1; }   /* behind the page content */
+#confetti-layer { z-index: 90; }  /* in front of everything */
+
+/* Floating emoji (hearts, sparkles, stars) drifting upward */
+.particle {
+  position: absolute;
+  bottom: -3rem;
+  left: 0;
+  opacity: 0;
+  filter: drop-shadow(0 0 8px rgba(244, 114, 182, 0.7));
+  animation: floatUp var(--dur, 12s) linear var(--delay, 0s) infinite;
+  will-change: transform, opacity;
+}
+@keyframes floatUp {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.9; }
+  50%  { transform: translate3d(var(--sway, 20px), -55vh, 0) rotate(20deg); }
+  90%  { opacity: 0.8; }
+  100% { transform: translate3d(calc(var(--sway, 20px) * -1), -115vh, 0) rotate(-15deg); opacity: 0; }
+}
+
+/* Twinkling little stars */
+.star {
+  position: absolute;
+  width: var(--size, 3px);
+  height: var(--size, 3px);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.7);
+  animation: twinkle var(--dur, 3s) ease-in-out var(--delay, 0s) infinite;
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; transform: scale(0.6); }
+  50%      { opacity: 1;    transform: scale(1.3); }
+}
+
+/* Confetti pieces falling from the top */
+.confetti {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  opacity: 0;
+  animation: confettiFall var(--dur, 3.5s) cubic-bezier(0.2, 0.6, 0.4, 1) var(--delay, 0s) forwards;
+}
+@keyframes confettiFall {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 1; }
+  100% { transform: translate3d(var(--drift, 0px), 110vh, 0) rotate(var(--rot, 720deg)); opacity: 1; }
+}
+
+/* Hearts that rise up from the bottom (celebrations) */
+.rise-heart {
+  position: absolute;
+  bottom: -2rem;
+  opacity: 0;
+  filter: drop-shadow(0 0 10px rgba(244, 114, 182, 0.8));
+  animation: heartRise var(--dur, 4s) ease-out var(--delay, 0s) forwards;
+}
+@keyframes heartRise {
+  0%   { transform: translate3d(0, 0, 0) scale(0.6); opacity: 0; }
+  15%  { opacity: 1; }
+  100% { transform: translate3d(var(--sway, 0px), -105vh, 0) scale(1.3); opacity: 0; }
+}
+
+/* Balloons floating up (Page 4) */
+.balloon {
+  position: absolute;
+  bottom: -140px;
+  width: var(--w, 48px);
+  height: calc(var(--w, 48px) * 1.25);
+  border-radius: 50% 50% 48% 48% / 58% 58% 42% 42%;
+  background: radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.65), var(--c, #f472b6) 55%);
+  box-shadow: inset -6px -8px 14px rgba(0, 0, 0, 0.22), 0 0 24px var(--c, #f472b6);
+  opacity: 0.85;
+  animation: balloonRise var(--dur, 16s) ease-in var(--delay, 0s) infinite;
+}
+/* The balloon string */
+.balloon::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 1px;
+  height: 70px;
+  background: rgba(255, 255, 255, 0.45);
+}
+@keyframes balloonRise {
+  0%   { transform: translate3d(0, 0, 0) rotate(-4deg); }
+  50%  { transform: translate3d(var(--sway, 30px), -60vh, 0) rotate(5deg); }
+  100% { transform: translate3d(calc(var(--sway, 30px) * -1), -130vh, 0) rotate(-4deg); }
+}
+
+
+/* ==========================================================================
+   6. PAGE 1 — LANDING PAGE (index.html)
+   ========================================================================== */
+.hero-title {
+  margin: 0.2em 0 0.3em;
+  font-family: var(--font-heading);
+  font-size: clamp(2.6rem, 10vw, 6rem);
+  line-height: 1.08;
+}
+
+/* Each word glides in, then shimmers with a gentle glow. */
+.hero-title .word {
+  display: inline-block;
+  margin: 0 0.12em;
+  color: transparent;
+  background: linear-gradient(90deg, #fff, var(--pink-200), var(--purple-300), #fff);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 0 18px rgba(244, 114, 182, 0.55));
+  animation:
+    wordRise 1s cubic-bezier(0.2, 0.8, 0.2, 1) both,
+    shimmer 6s linear infinite;
+  animation-delay: calc(var(--i) * 0.2s + 0.2s), 0s;
+}
+@keyframes wordRise {
+  from { opacity: 0; transform: translateY(40px) scale(0.9); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes shimmer {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 250% 50%; }
+}
+
+/* The "20 November" pill */
+.date-pill {
+  display: inline-block;
+  margin: 1.2rem 0 1.8rem;
+  padding: 0.45em 1.4em;
+  border-radius: 999px;
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  border: 1px solid rgba(249, 210, 125, 0.45);
+  background: rgba(249, 210, 125, 0.08);
+  text-shadow: 0 0 14px rgba(249, 210, 125, 0.7);
+}
+
+/* The date-of-birth card */
+.unlock-card {
+  width: min(100%, 440px);
+  padding: 30px 26px 28px;
+  text-align: center;
+}
+.unlock-card.shake { animation: shake 0.5s ease; }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-10px); }
+  40% { transform: translateX(10px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+.unlock-label {
+  display: block;
+  margin-bottom: 0.9rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.unlock-card input[type="date"] {
+  width: 100%;
+  padding: 0.85em 1em;
+  border-radius: 14px;
+  border: 1px solid var(--glass-border);
+  background: rgba(5, 8, 22, 0.55);
+  color: var(--text);
+  font: 1.05rem var(--font-body);
+  text-align: center;
+  color-scheme: dark;   /* dark calendar pop-up */
+}
+.unlock-card input[type="date"]:focus {
+  outline: none;
+  border-color: var(--pink-400);
+  box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.25);
+}
+
+.form-hint {
+  margin: 0.6rem 0 0;
+  font-size: 0.85rem;
+  color: var(--text-soft);
+  opacity: 0.8;
+}
+
+/* Friendly error / info text under the input */
+.form-message {
+  min-height: 1.6em;
+  margin: 0.8rem 0 1rem;
+  font-size: 0.98rem;
+  color: var(--pink-200);
+}
+
+/* Success screen shown after the correct date */
+.unlock-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+  background: radial-gradient(circle at center, rgba(139, 92, 246, 0.55), rgba(5, 8, 22, 0.95) 70%);
+  animation: fadeIn 0.5s ease both;
+}
+.unlock-burst {
+  font-size: clamp(4rem, 18vw, 7rem);
+  animation: burstPop 1s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+  filter: drop-shadow(0 0 30px rgba(251, 207, 232, 0.9));
+}
+.unlock-text {
+  margin: 0.4rem 0 0.2rem;
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 6vw, 3rem);
+  text-shadow: 0 0 24px rgba(244, 114, 182, 0.8);
+}
+.unlock-sub { color: var(--text-soft); }
+@keyframes burstPop {
+  from { transform: scale(0) rotate(-90deg); opacity: 0; }
+  to   { transform: scale(1) rotate(0); opacity: 1; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+
+/* ==========================================================================
+   7. PAGE 2 — MEMORIES (memories.html)
+   ========================================================================== */
+
+/* ---- Music controls (top-right corner) ---- */
+.music-panel {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px 6px 6px;
+  border-radius: 999px;
+}
+.music-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.55em 1em;
+  border: 0;
+  border-radius: 999px;
+  font: 600 0.9rem var(--font-body);
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--pink-500), var(--purple-500));
+}
+.music-btn[aria-pressed="true"] .music-note { animation: bounceNote 0.9s ease-in-out infinite; }
+@keyframes bounceNote {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+.music-volume {
+  width: 80px;
+  accent-color: var(--pink-400);
+  cursor: pointer;
+}
+
+/* ---- Photo gallery (scrapbook style) ---- */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+  gap: 30px;
+  margin-bottom: 1rem;
+}
+
+.photo-card {
+  margin: 0;
+  padding: 12px 12px 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+  /* "rotate" is separate from "transform", so it does not clash with scroll-reveal */
+  rotate: -1.6deg;
+  transition: rotate 0.4s ease, box-shadow 0.4s ease, opacity 0.9s ease, transform 0.9s ease;
+}
+.photo-card:nth-child(even) { rotate: 1.4deg; }
+.photo-card:hover {
+  rotate: 0deg;
+  box-shadow: 0 24px 60px rgba(236, 72, 153, 0.35);
+}
+/* The little "tape" strip at the top of each card */
+.photo-card::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  width: 90px;
+  height: 24px;
+  transform: translateX(-50%) rotate(-3deg);
+  background: rgba(251, 207, 232, 0.45);
+  border-radius: 3px;
+}
+.photo-card { position: relative; }
+
+.photo-btn {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  cursor: zoom-in;
+}
+.photo-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+.photo-btn:hover img { transform: scale(1.1); }  /* hover zoom */
+.photo-btn::after {
+  content: "🔍";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 0.3em 0.45em;
+  border-radius: 50%;
+  background: rgba(5, 8, 22, 0.6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.photo-btn:hover::after,
+.photo-btn:focus-visible::after { opacity: 1; }
+
+.photo-card figcaption {
+  margin-top: 0.9rem;
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--pink-200);
+}
+
+/* ---- Video memories ---- */
+
+
+/* ---- Full-screen photo viewer (lightbox) ---- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 16px;
+  background: rgba(3, 4, 14, 0.94);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.3s ease both;
+}
+.lb-figure {
+  margin: 0;
+  max-width: min(94vw, 1000px);
+  text-align: center;
+}
+.lb-img {
+  max-width: 100%;
+  max-height: 76vh;
+  margin: 0 auto;
+  border-radius: 14px;
+  box-shadow: 0 0 80px rgba(139, 92, 246, 0.45);
+}
+.lb-caption {
+  margin-top: 1rem;
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--pink-200);
+}
+.lb-btn {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #fff;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+.lb-btn:hover { background: rgba(244, 114, 182, 0.5); transform: scale(1.08); }
+.lb-close { top: 14px; right: 14px; }
+.lb-prev  { left: 12px;  top: 50%; margin-top: -24px; }
+.lb-next  { right: 12px; top: 50%; margin-top: -24px; }
+
+
+/* ==========================================================================
+   8. PAGE 3 — GIFT SURPRISE (surprise.html)
+   The gift box is built only from CSS shapes (no image needed).
+   ========================================================================== */
+.gift-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* "--s" is the gift size. Everything inside scales from it. */
+.gift {
+  --s: clamp(170px, 48vw, 250px);
+  position: relative;
+  width: var(--s);
+  height: calc(var(--s) * 1.1);
+  margin: 2.2rem auto 1.6rem;
+  animation: giftFloat 3.2s ease-in-out infinite;
+}
+@keyframes giftFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+
+/* Soft glow behind the gift */
+.gift-glow {
+  position: absolute;
+  inset: -30% -35%;
+  background: radial-gradient(circle, rgba(244, 114, 182, 0.55), rgba(139, 92, 246, 0.25) 45%, transparent 70%);
+  animation: glowBreath 3s ease-in-out infinite;
+}
+@keyframes glowBreath {
+  0%, 100% { opacity: 0.6; transform: scale(0.95); }
+  50%      { opacity: 1;   transform: scale(1.08); }
+}
+
+.gift-inner {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 100%;
+}
+.gift.shaking .gift-inner { animation: giftShake 0.9s ease-in-out; }
+@keyframes giftShake {
+  0%, 100% { transform: rotate(0); }
+  15% { transform: rotate(-7deg); }
+  30% { transform: rotate(7deg); }
+  45% { transform: rotate(-6deg); }
+  60% { transform: rotate(6deg); }
+  75% { transform: rotate(-3deg); }
+}
+
+/* The box body */
+.gift-box {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: 0;
+  height: 56%;
+  border-radius: 6px 6px 16px 16px;
+  background: linear-gradient(160deg, #8b5cf6, #5b21b6 75%);
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.14),
+    0 22px 40px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(139, 92, 246, 0.6);
+}
+/* The vertical ribbon on the box */
+.gift-box::before,
+.gift-lid::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 18%;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, #f9a8d4, #f472b6 50%, #f9a8d4);
+  box-shadow: 0 0 20px rgba(244, 114, 182, 0.7);
+}
+
+/* The lid (lifts off when opened) */
+.gift-lid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 56%;
+  height: 20%;
+  z-index: 3;
+  border-radius: 10px;
+  background: linear-gradient(160deg, #a78bfa, #6d28d9);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.16), 0 8px 20px rgba(0, 0, 0, 0.4);
+  transform-origin: 8% 100%;
+  transition: transform 1s cubic-bezier(0.5, -0.4, 0.3, 1.2), opacity 0.9s ease 0.2s;
+}
+
+/* The bow on top of the lid */
+.gift-bow {
+  position: absolute;
+  left: 50%;
+  bottom: 96%;
+  width: 40%;
+  height: 70%;
+  transform: translateX(-50%);
+}
+.gift-bow .loop {
+  position: absolute;
+  bottom: 4%;
+  width: 52%;
+  height: 100%;
+  border: calc(var(--s) * 0.04) solid var(--pink-400);
+  border-radius: 60% 60% 40% 40%;
+  box-shadow: 0 0 18px rgba(244, 114, 182, 0.8), inset 0 0 12px rgba(244, 114, 182, 0.5);
+}
+.gift-bow .loop-left  { left: -2%;  transform: rotate(-28deg); transform-origin: 90% 100%; }
+.gift-bow .loop-right { right: -2%; transform: rotate(28deg);  transform-origin: 10% 100%; }
+.gift-bow .knot {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 26%;
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fbcfe8, #ec4899);
+  box-shadow: 0 0 16px rgba(244, 114, 182, 0.9);
+}
+
+/* Beam of light that shines out when opened */
+.gift-light {
+  position: absolute;
+  left: 50%;
+  bottom: 52%;
+  width: 70%;
+  height: 0;
+  z-index: 1;
+  transform: translateX(-50%);
+  clip-path: polygon(15% 100%, 85% 100%, 100% 0, 0 0);
+  background: linear-gradient(to top, rgba(255, 244, 190, 0.95), rgba(255, 255, 255, 0));
+  filter: blur(5px);
+  opacity: 0;
+  transition: height 1.1s ease 0.25s, opacity 0.6s ease 0.25s;
+}
+
+/* What happens when the gift opens */
+.gift.opened .gift-lid {
+  transform: translate(-30%, -140%) rotate(-24deg);
+  opacity: 0;
+}
+.gift.opened .gift-light { height: 150%; opacity: 0.9; }
+.gift.opened .gift-glow  { animation-duration: 1.4s; }
+
+/* Prompt (subtitle + button) disappears after clicking */
+.gift-prompt { transition: opacity 0.5s ease; }
+.gift-prompt.fade-away { opacity: 0; pointer-events: none; }
+
+/* The revealed message card */
+.surprise-reveal {
+  width: min(100%, 640px);
+  margin-top: 1rem;
+  padding: 30px 26px 34px;
+  text-align: center;
+}
+.surprise-reveal.show { animation: popIn 0.9s cubic-bezier(0.2, 1, 0.3, 1) both; }
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(40px) scale(0.92); }
+  to   { opacity: 1; transform: none; }
+}
+
+.reveal-title {
+  margin-bottom: 0.8rem;
+  font-family: var(--font-heading);
+  font-size: clamp(1.7rem, 5vw, 2.5rem);
+  color: var(--pink-200);
+  text-shadow: 0 0 22px rgba(244, 114, 182, 0.8);
+}
+.reveal-message {
+  font-size: clamp(1.05rem, 2.6vw, 1.2rem);
+  color: var(--text);
+}
+.reveal-photo {
+  width: min(100%, 360px);
+  margin: 1.4rem auto;
+  aspect-ratio: 4 / 3;
+  border-radius: 16px;
+  object-fit: contain; /* Yeh ensure karega ke picture pori aaye, kate nahi */
+  background-color: #1a1a1a; /* Agar image ke side mein space bache toh background acha lage */
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 50px rgba(236, 72, 153, 0.45);
+}
+.reveal-note {
+  margin: 1.2rem 0 0;
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: clamp(1.15rem, 3vw, 1.4rem);
+  color: var(--gold);
+  text-shadow: 0 0 16px rgba(249, 210, 125, 0.6);
+}
+
+.continue-wrap { margin-top: 1.8rem; }
+.continue-wrap.show { animation: popIn 0.8s ease both; }
+
+
+/* ==========================================================================
+   9. PAGE 4 — BIRTHDAY WISHES (wishes.html)
+   ========================================================================== */
+/* ---- Animated cake (pure CSS) ---- */
+.cake {
+  position: relative;
+  width: 240px;
+  height: 230px;
+  margin: 1.6rem auto 0.4rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  animation: cakeBob 4s ease-in-out infinite;
+}
+@keyframes cakeBob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+.cake .tier {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 12px 12px 8px 8px;
+  box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.12), 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+.tier-bottom { bottom: 14px;  width: 230px; height: 70px; background: linear-gradient(180deg, #a78bfa, #6d28d9); }
+.tier-mid    { bottom: 84px;  width: 164px; height: 62px; background: linear-gradient(180deg, #f9a8d4, #ec4899); }
+.tier-top    { bottom: 146px; width: 104px; height: 50px; background: linear-gradient(180deg, #fde68a, #f59e0b); }
+
+/* White frosting with scalloped drips on each tier */
+.cake .tier::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 18px;
+  border-radius: 12px 12px 0 0;
+  background:
+    radial-gradient(circle at 10px 100%, transparent 9px, #fff 10px) 0 0 / 20px 100% repeat-x;
+  filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.08));
+}
+/* Sprinkles / decoration dots */
+.cake .tier::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 14px;
+  height: 6px;
+  border-radius: 6px;
+  background: repeating-linear-gradient(90deg, rgba(255,255,255,.75) 0 6px, transparent 6px 16px);
+}
+
+.cake .plate {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 250px;
+  height: 18px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: linear-gradient(180deg, #e9d5ff, #a78bfa);
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.6);
+}
+
+/* Candles */
+.candles {
+  position: absolute;
+  bottom: 194px;
+  left: 50%;
+  width: 90px;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-between;
+}
+.candle {
+  position: relative;
+  display: block;
+  width: 10px;
+  height: 36px;
+  border-radius: 3px;
+  background: repeating-linear-gradient(135deg, #fff 0 6px, #f9a8d4 6px 12px);
+}
+/* The flickering flame */
+.flame {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 12px;
+  height: 20px;
+  margin-left: -6px;
+  border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%;
+  background: radial-gradient(circle at 50% 70%, #fff7c2, #fbbf24 55%, #f97316);
+  box-shadow: 0 0 18px 6px rgba(251, 191, 36, 0.7);
+  transform-origin: 50% 100%;
+  animation: flicker 0.5s ease-in-out infinite alternate;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+@keyframes flicker {
+  from { transform: scale(1, 1) rotate(-3deg); }
+  to   { transform: scale(0.9, 1.15) rotate(3deg); }
+}
+/* "Blown out" state (when the cake is tapped) */
+.cake.blown .flame { opacity: 0; transform: scale(0); animation: none; }
+
+.cake-hint {
+  margin-bottom: 1.6rem;
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  opacity: 0.8;
+}
+
+/* ---- Text cards on the wishes page ---- */
+.text-card {
+  width: min(100%, 720px);
+  margin: 0 auto;
+  padding: 28px 26px;
+  text-align: left;
+  font-size: clamp(1.02rem, 2.4vw, 1.15rem);
+}
+.text-card p:last-child { margin-bottom: 0; }
+
+.wish-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr));
+  gap: 18px;
+  width: min(100%, 980px);
+  margin: 0 auto;
+}
+.wish-card {
+  padding: 22px 20px;
+  text-align: center;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.wish-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 60px rgba(139, 92, 246, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+.wish-icon {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 2.2rem;
+  filter: drop-shadow(0 0 12px rgba(251, 207, 232, 0.7));
+}
+.wish-card h3 {
+  margin-bottom: 0.4rem;
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  color: var(--pink-200);
+}
+.wish-card p { margin: 0; font-size: 0.98rem; color: var(--text-soft); }
+
+/* ---- Personal message card with a glowing, flowing border ---- */
+.glow-card {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 720px);
+  margin: 2.4rem auto 0;
+  padding: 32px 28px;
+  border-radius: var(--radius);
+  background: rgba(10, 14, 44, 0.92);
+  text-align: center;
+}
+.glow-card::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  z-index: -1;
+  border-radius: calc(var(--radius) + 3px);
+  background: linear-gradient(120deg, #ec4899, #8b5cf6, #38bdf8, #ec4899, #8b5cf6);
+  background-size: 300% 300%;
+  animation: borderFlow 6s ease infinite;
+  filter: blur(2px);
+}
+.glow-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: var(--radius);
+  background: rgba(10, 14, 44, 0.96);
+}
+@keyframes borderFlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.glow-card h2 {
+  font-family: var(--font-heading);
+  color: var(--pink-200);
+  text-shadow: 0 0 18px rgba(244, 114, 182, 0.7);
+}
+.signature {
+  margin: 1.2rem 0 0;
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--gold);
+}
+
+
+/* ==========================================================================
+   10. PAGE 5 — INVITATION CARD (invitation.html)
+   ========================================================================== */
+.invite {
+  position: relative;
+  width: min(100%, 580px);
+  padding: 44px 30px 40px;
+  border-radius: 28px;
+  text-align: center;
+  /* Gradient border trick: dark fill inside, bright gradient on the border edge */
+  border: 3px solid transparent;
+  background:
+    linear-gradient(160deg, #0d1233, #1c0f45 60%, #2a0f4f) padding-box,
+    linear-gradient(135deg, var(--gold), var(--pink-400), var(--purple-500), var(--gold)) border-box;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 70px rgba(139, 92, 246, 0.45);
+  animation: inviteGlow 4s ease-in-out infinite;
+}
+@keyframes inviteGlow {
+  0%, 100% { box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 50px rgba(139,92,246,.35); }
+  50%      { box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 90px rgba(244,114,182,.6); }
+}
+/* A thin inner border for a classic invitation feel */
+.invite::before {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border: 1px solid rgba(249, 210, 125, 0.5);
+  border-radius: 20px;
+  pointer-events: none;
+}
+/* Corner ornaments */
+.corner {
+  position: absolute;
+  font-size: 1.1rem;
+  color: var(--gold);
+  text-shadow: 0 0 10px rgba(249, 210, 125, 0.8);
+}
+.corner.tl { top: 18px;    left: 22px; }
+.corner.tr { top: 18px;    right: 22px; }
+.corner.bl { bottom: 18px; left: 22px; }
+.corner.br { bottom: 18px; right: 22px; }
+
+.invite-icons {
+  font-size: 2rem;
+  letter-spacing: 0.4em;
+  margin-bottom: 0.6rem;
+}
+.invite-icons span {
+  display: inline-block;
+  animation: iconBob 2.6s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.25s);
+}
+@keyframes iconBob {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50%      { transform: translateY(-8px) rotate(4deg); }
+}
+
+.invite-kicker {
+  margin: 0.4rem 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.5em;
+  color: var(--gold);
+  text-shadow: 0 0 14px rgba(249, 210, 125, 0.7);
+}
+.invite-title {
+  margin: 0.2em 0 0.5em;
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 7vw, 3rem);
+  line-height: 1.12;
+  background: linear-gradient(90deg, #fff, var(--pink-200), var(--purple-300), #fff);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+.invite-message {
+  max-width: 40ch;
+  margin: 0 auto 1.5rem;
+  color: var(--text-soft);
+}
+
+.invite-details {
+  display: grid;
+  gap: 10px;
+  margin: 0 auto 1.4rem;
+  padding: 0;
+  max-width: 380px;
+  list-style: none;
+  text-align: left;
+}
+.invite-details li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.invite-details .d-icon { font-size: 1.4rem; }
+.invite-details .d-label {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pink-200);
+}
+.invite-details .d-value { font-weight: 600; font-size: 1.05rem; }
+
+.invite-footer-icons { font-size: 1.5rem; letter-spacing: 0.5em; opacity: 0.9; }
+
+.invite-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 2rem;
+}
+
+/* Celebration message revealed by the "Celebrate With Me" button */
+.celebration {
+  width: min(100%, 580px);
+  margin-top: 1.6rem;
+  padding: 26px 24px;
+  text-align: center;
+}
+.celebration.show { animation: popIn 0.9s cubic-bezier(0.2, 1, 0.3, 1) both; }
+.celebration h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 5vw, 2.2rem);
+  color: var(--pink-200);
+  text-shadow: 0 0 20px rgba(244, 114, 182, 0.8);
+}
+.celebration p:last-child { margin-bottom: 0; }
+
+
+/* ==========================================================================
+   11. PAGE 6 — CLOSING PAGE (closing.html)
+   ========================================================================== */
+.portrait {
+  width: clamp(150px, 40vw, 230px);
+  aspect-ratio: 1;
+  margin: 0 auto 1.6rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 0 0 10px rgba(244, 114, 182, 0.18), 0 0 70px rgba(244, 114, 182, 0.65);
+  animation: portraitGlow 4s ease-in-out infinite;
+}
+@keyframes portraitGlow {
+  0%, 100% { box-shadow: 0 0 0 8px rgba(244,114,182,.16), 0 0 50px rgba(244,114,182,.5); }
+  50%      { box-shadow: 0 0 0 14px rgba(139,92,246,.2),  0 0 90px rgba(139,92,246,.75); }
+}
+
+.closing-card {
+  width: min(100%, 680px);
+  margin: 1rem auto 1.6rem;
+  padding: 26px 24px;
+}
+.closing-card p:last-child { margin-bottom: 0; }
+
+.closing-wish {
+  margin: 0 0 1.8rem;
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: clamp(1.2rem, 3.4vw, 1.6rem);
+  color: var(--gold);
+  text-shadow: 0 0 18px rgba(249, 210, 125, 0.65);
+}
+
+.site-footer {
+  margin-top: 2.4rem;
+  font-size: 0.95rem;
+  color: var(--text-soft);
+  opacity: 0.9;
+}
+
+
+/* ==========================================================================
+   12. SMALL SCREENS
+   ========================================================================== */
+@media (max-width: 600px) {
+  .page { padding: 40px 16px; }
+  .page--top { padding-top: 76px; }
+
+  .eyebrow { letter-spacing: 0.22em; font-size: 0.75rem; }
+  .unlock-card { padding: 24px 18px; }
+
+  .music-volume { width: 60px; }
+  .music-btn { padding: 0.5em 0.85em; font-size: 0.85rem; }
+
+  .gallery { gap: 26px; }
+  .play-btn { width: 64px; height: 64px; margin: -32px 0 0 -32px; font-size: 1.5rem; }
+
+  .lb-btn { width: 42px; height: 42px; }
+  .lb-prev { left: 6px; }
+  .lb-next { right: 6px; }
+
+  .invite { padding: 40px 20px 34px; }
+  .invite-icons { letter-spacing: 0.25em; }
+  .text-card, .glow-card { padding: 24px 18px; }
+}
+
+
+/* ==========================================================================
+   13. PRINTING  (Page 5: press the "Print / Save" button or Ctrl+P)
+   Hides buttons and effects so only the invitation card is printed.
+   ========================================================================== */
+@media print {
+  @page { margin: 12mm; }
+
+  html, body { background: #fff !important; }
+  body::before,
+  .photo-bg,
+  #fx-layer,
+  #confetti-layer,
+  .no-print,
+  .celebration,
+  .toast { display: none !important; }
+
+  .page {
+    min-height: auto;
+    padding: 0;
+    animation: none;
+  }
+
+  /* Keep the dark card colours when printing */
+  .invite {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    animation: none;
+    break-inside: avoid;
+    box-shadow: none;
+  }
+  .invite-icons span { animation: none; }
+
+  /* Gradient text can print with faint box lines, so use a plain colour */
+  .invite-title {
+    background: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    color: #f3e8ff;
+    animation: none;
+  }
+}
+
+
+/* ==========================================================================
+   14. REDUCED MOTION
+   People who turn on "reduce motion" in their device settings get a calmer
+   version of the site with (almost) no animation.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .js .reveal { opacity: 1; transform: none; }
+}
